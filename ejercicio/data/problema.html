@@ -1,0 +1,62 @@
+## Actividades:
+- Genear un HTML que consuma la información del archivo data_instituciones.json
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Datos Instituciones Educativas</title>
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+  </head>
+  <body>
+      <h1>Información de Instituciones Educativas</h1>
+      <p id="mensajeFinal"></p>
+      <button type="submit" id="obtenerInformacion">Obtener información</button>
+      <button type="submit" id="limpiarInformacion">Limpiar información</button>
+  </body>
+  <script>
+    $(document).ready(function() {
+      var url = "https://raw.githubusercontent.com/PlataformasWeb-P-AA2025/clase03-1bim-JoseDavid-gif/refs/heads/main/ejercicio/data/data_instituciones.json";
+      
+      $( "#obtenerInformacion" ).click(function() {
+        $.ajax({
+          dataType: 'json',
+          url: url
+        }).then(function(data) {
+          $('#mensajeFinal').empty();  // Limpiar cualquier contenido previo
+          for(var i = 0; i < data.length; i++){
+            // Mostrar la información de cada institución educativa
+            var institution = data[i];
+            $('#mensajeFinal').append(`
+              <div class="institution">
+                <h3>${institution["Nombre-Educativa"]}</h3>
+                <p><b>AMIE:</b> ${institution.AMIE}</p>
+                <p><b>Provincia:</b> ${institution.Provincia}</p>
+                <p><b>Cantón:</b> ${institution.Canton}</p>
+                <p><b>Parroquia:</b> ${institution.Parroquia}</p>
+                <p><b>Zona Administrativa:</b> ${institution.ZonaAdministrativa}</p>
+                <p><b>Código Distrito:</b> ${institution.CodigoDistrito}</p>
+                <p><b>Sostenimiento:</b> ${institution.Sostenimiento}</p>
+                <p><b>Régimen Escolar:</b> ${institution.RegimenEscolar}</p>
+                <p><b>Modalidad:</b> ${institution.Modalidad}</p>
+                <p><b>Jornada:</b> ${institution.Jornada}</p>
+                <p><b>Nivel:</b> ${institution.Nivel}</p>
+                <p><b>Etnia:</b> ${institution.Etnia}</p>
+                <p><b>Número de Estudiantes:</b> ${institution.Numeroestudiantes}</p>
+                <p><b>Número de Docentes:</b> ${institution.Numerodocentes}</p>
+                <p><b>Estado:</b> ${institution.Estado}</p>
+                <hr/>
+              </div>
+            `);
+          }
+        });
+      });
+
+      $( "#limpiarInformacion" ).click(function() {
+          $('#mensajeFinal').empty();
+      });
+    });
+  </script>
+</html>
+
